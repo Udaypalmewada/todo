@@ -2,17 +2,28 @@ package com.cevatraining.jsf.todo.model;
 
 import java.util.Calendar;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.xml.bind.annotation.XmlRootElement;
 
-@ManagedBean
-@ViewScoped
+@Entity
+@NamedQueries({
+    @NamedQuery(name = Todo.FIND_ALL, query = "SELECT t FROM Todo t")
+})
+@XmlRootElement
 public class Todo {
-  private String id;
+  private int id;
   private String title;
   private String description;
   private int priority;
   private Calendar dueDate;
+  
+  // ======================================
+  // =             Constants              =
+  // ======================================
+
+  public static final String FIND_ALL = "TODO.findAll";
   
   public Todo(String title, String description, int priority) {
     this.title = title;
@@ -20,10 +31,10 @@ public class Todo {
     this.priority = priority;
   }
   
-  public String getId() {
+  public int getId() {
     return id;
   }
-  public void setId(String id) {
+  public void setId(int id) {
     this.id = id;
   }
   public String getTitle() {

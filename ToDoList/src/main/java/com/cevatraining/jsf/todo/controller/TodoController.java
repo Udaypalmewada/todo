@@ -9,6 +9,8 @@ import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
 import com.cevatraining.jsf.todo.model.Todo;
+import com.cevatraining.jsf.todo.service.TodoService;
+import com.cevatraining.jsf.todo.service.impl.TodoServiceImpl;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -23,11 +25,18 @@ public class TodoController {
   private UIForm form;
   private UIForm tableForm;
   private UICommand addCommand;
+  
+  private TodoService todoService;
 
   public TodoController() {
     todos = new ArrayList<Todo>();
-    todos.add(new Todo("Learn JFS", "Finish this article", 1));
-    todos.add(new Todo("Stop drinking to much coffee", "Coffee is evil!", 3));
+//    todos.add(new Todo("Learn JFS", "Finish this article", 1));
+//    todos.add(new Todo("Stop drinking to much coffee", "Coffee is evil!", 3));
+    
+    // TODO create an Abstract Factory to get the instance
+    todoService = new TodoServiceImpl(); 
+    todos = todoService.findAllTodos();
+    System.out.println("");
   }
 
   public String addNew() {
@@ -39,6 +48,9 @@ public class TodoController {
 
   public String save() {
     todos.add(todo);
+    
+    todoService.createTodo(todo);
+    
     form.setRendered(false);
     addCommand.setRendered(true);
     return null;
