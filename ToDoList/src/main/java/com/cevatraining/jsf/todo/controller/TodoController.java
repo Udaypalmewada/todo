@@ -3,15 +3,16 @@ package com.cevatraining.jsf.todo.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UICommand;
 import javax.faces.component.UIForm;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 
 import com.cevatraining.jsf.todo.model.Todo;
-
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import com.cevatraining.jsf.todo.service.impl.TodoServiceImpl;
 @ManagedBean
 @ViewScoped
 public class TodoController {
@@ -23,11 +24,20 @@ public class TodoController {
   private UIForm form;
   private UIForm tableForm;
   private UICommand addCommand;
+  
+  @Inject
+  private TodoServiceImpl todoService;
 
   public TodoController() {
     todos = new ArrayList<Todo>();
+    
+    // FIX: pending to solve a problem with the inialitation if the service
     todos.add(new Todo("Learn JFS", "Finish this article", 1));
     todos.add(new Todo("Stop drinking to much coffee", "Coffee is evil!", 3));
+    
+    // TODO create an Abstract Factory to get the instance
+    //todoService = new TodoServiceImpl(); 
+    //todos = todoService.findAllTodos();
   }
 
   public String addNew() {
@@ -39,6 +49,9 @@ public class TodoController {
 
   public String save() {
     todos.add(todo);
+    
+    todoService.createTodo(todo);
+    
     form.setRendered(false);
     addCommand.setRendered(true);
     return null;
