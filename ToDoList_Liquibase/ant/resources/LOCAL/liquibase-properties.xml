@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="liquibase_include">
+	<property name="db.changelog.file" value="../changeset.xml"/>
+	<property name="database.url" value="jdbc:postgresql://postgres.ceva.cloud:5432/user_database"/>
+	<property name="database.username" value="username"/>
+	<property name="database.password" value="password"/>
+	<property name="database.driver" value="org.postgresql.Driver"/>
+	<property name="database.defaultSchemaName" value="ToDo"/>
+</project>
+
+
