@@ -162,7 +162,7 @@
 				<version>${version.maven.war.plugin}</version>
 				<configuration>
 				  <warName>todolist</warName>
-				  <outputDirectory>${workspace.location}/apps</outputDirectory>
+				  <outputDirectory>${workspace.location}/webapps</outputDirectory>
 				</configuration>
 			</plugin>
 
