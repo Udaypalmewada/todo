@@ -19,7 +19,10 @@ public class TodoController {
   // domain model related variables
   private List<Todo> todos;
   private Todo todo;
-
+  private String title;
+  private String description;
+  private int priority;
+  
   // JavaServerFaces related variables
   private UIForm form;
   private UIForm tableForm;
@@ -36,39 +39,73 @@ public class TodoController {
     todos.add(new Todo("Stop drinking to much coffee", "Coffee is evil!", 3));
     
     // TODO create an Abstract Factory to get the instance
-    //todoService = new TodoServiceImpl(); 
-    //todos = todoService.findAllTodos();
+    todoService = new TodoServiceImpl(); 
+    todos = todoService.findAllTodos();
   }
 
   public String addNew() {
-    todo = new Todo("", "", 3);
-    form.setRendered(true);
-    addCommand.setRendered(false);
+    todo = new Todo("", "", 0);
+    todo.setNewRow(true);
+    List newTodos = new ArrayList(todos);
+    newTodos.add(0, todo);
+    this.setTodos(newTodos);
+    //form.setRendered(true);
+    //addCommand.setRendered(false);
     return null;
   }
 
   public String save() {
-    todos.add(todo);
-    
+	
+	if (this.getPriority() == 0 && this.getTitle() == null && this.getDescription() == null) {
+		return null;
+	}
+	//
+	todo = new Todo(this.getTitle(), this.getDescription(), this.getPriority());
+	//
     todoService.createTodo(todo);
+    //
+    List newTodos = todoService.findAllTodos();
+    this.setTodos(newTodos);
+    //
+    this.setTitle("");
+	this.setPriority(0);
+	this.setDescription("");
     
-    form.setRendered(false);
-    addCommand.setRendered(true);
+    //form.setRendered(false);
+    //addCommand.setRendered(true);
     return null;
   }
 
   public String cancel() {
-    todo = null;
-    form.setRendered(false);
-    addCommand.setRendered(true);
+    //todo = null;
+    //form.setRendered(false);
+    //addCommand.setRendered(true);
+	  todo.setNewRow(false);
     return null;
   }
 
   public String delete() {
-    todos.remove(todo);
+    //
+    todoService.delete(todo);
+    //
+    List newTodos = todoService.findAllTodos();
+    this.setTodos(newTodos);
     return null;
   }
+  
+  public String edit() {
+	  todo.setNewRow(true);
+	  return null;
+  }
 
+  public String update() {
+	    //
+	    todoService.update(todo);
+	    List newTodos = todoService.findAllTodos();
+	    this.setTodos(newTodos);
+	    return null;
+  }
+  
   public void displayTable(ActionEvent event) {
     if (event.getComponent().getId().equalsIgnoreCase("hide")) {
       tableForm.setRendered(false);
@@ -124,5 +161,28 @@ public class TodoController {
   public void setTableForm(UIForm tableForm) {
     this.tableForm = tableForm;
   }
+  
+  public String getTitle() {
+	    return title;
+	  }
+	  public void setTitle(String title) {
+	    this.title = title;
+	  }
+	  public String getDescription() {
+	    return description;
+	  }
+	  public void setDescription(String description) {
+	    this.description = description;
+	  }
+	  
+	  public int getPriority() {
+	    return priority;
+	  }
+
+	  public void setPriority(int priority) {
+	    this.priority = priority;
+	  } 
+	  
+
 
 } 

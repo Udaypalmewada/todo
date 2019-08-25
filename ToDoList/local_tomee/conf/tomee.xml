@@ -3,9 +3,9 @@
 
 	<Resource id="applicationPetstoreDS" type="javax.sql.DataSource">
 	    jdbcDriver org.postgresql.Driver
-		jdbcUrl    jdbc:postgresql://lxpgltn0101.fifthlayer.net:5432/petstore
-		userName   petstore
-		password   petstore
+		jdbcUrl    jdbc:postgresql://postgres-two.ceva.cloud:5432/prateek_singh
+		userName   prateek_singh
+		password   prateek_singh
 		jtaManaged          true
 	</Resource>
 	

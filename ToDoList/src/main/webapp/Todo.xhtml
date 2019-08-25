@@ -2,101 +2,73 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
 <title>Insert title here</title>
 
 </head>
-<body>
+<h:body>
 <h3>Todo list v1.2</h3>
 <f:view>
   <h:messages layout="table"></h:messages>
-
-  <h:form>
-    <h:commandLink binding="#{todoController.addCommand}" accesskey="n"
-      action="#{todoController.addNew}" value="Add new Todo">
-    </h:commandLink>
-  </h:form>
-
-
-  <h:form binding="#{todoController.form}" rendered="false"
-    styleClass="todo">
-    <h:panelGrid columns="2">
-      <h:outputText value="Title"></h:outputText>
-      <h:inputText value="#{todoController.todo.title}" required="true"
-        requiredMessage="Title is required">
-      </h:inputText>
-      <h:outputText value="Description"></h:outputText>
-      <h:inputTextarea value="#{todoController.todo.description}" cols="40"
-        rows="4"></h:inputTextarea>
-      <h:outputText value="Prio"></h:outputText>
-      <h:selectOneMenu validatorMessage="required"
-        value="#{todoController.todo.priority}">
-        <f:selectItems value="#{todoController.priorities}" />
-      </h:selectOneMenu>
-    </h:panelGrid>
-    <h:panelGroup>
-      <h:commandButton action="#{todoController.save}" value="Save"
-        accesskey="s">
-      </h:commandButton>
-      <h:commandButton action="#{todoController.cancel}" value="Cancel"
-        accesskey="c" immediate="true">
-      </h:commandButton>
-    </h:panelGroup>
-  </h:form>
-
-  <h:form>
-    <h:panelGrid columns="2">
-      <h:commandLink id="hide"
-        actionListener="#{todoController.displayTable}" value="Hide Table">
-      </h:commandLink>
-      <h:commandLink id="show"
-        actionListener="#{todoController.displayTable}" value="Show Table">
-      </h:commandLink>
-    </h:panelGrid>
-  </h:form>
-
+	
+  <!-- <p:dataTable id="testTableId" style="border:1px;">
+  	<p:column headerText="Id">
+        <h:outputText value="" />
+    </p:column>
+ 
+    <p:column headerText="Year">
+        <h:outputText value="" />
+    </p:column>
+ 
+    <p:column headerText="Brand">
+        <h:outputText value="" />
+    </p:column>
+ 
+    <p:column headerText="Color">
+        <h:outputText value="" />
+    </p:column>
+  </p:dataTable>
+  <p:commandButton id="buttonId" value="submit"/>-->
   <h:form binding="#{todoController.tableForm}">
-
-    <h:dataTable value="#{todoController.todos}" var="todo"
+    <h:dataTable id="dt1" value="#{todoController.todos}" var="todo"
       styleClass="todo" headerClass="todoheader"
       columnClasses="first, rest">
       <h:column>
-        <f:facet name="header">
-          <h:column>
-            <h:outputText value="Prio"></h:outputText>
-          </h:column>
-        </f:facet>
-        <h:outputText value="#{todo.priority}"></h:outputText>
+        <f:facet name="header">Priority</f:facet>
+        <h:inputText value="#{todo.priority}" rendered="#{todo.newRow}"></h:inputText>
+        <h:outputText value="#{todo.priority}" rendered="#{not todo.newRow}"></h:outputText>
       </h:column>
       <h:column>
-        <f:facet name="header">
-          <h:column>
-            <h:outputText value="Title"></h:outputText>
-          </h:column>
-        </f:facet>
-        <h:outputText value="#{todo.title}"></h:outputText>
-
+        <f:facet name="header">Title</f:facet>
+        <h:outputText value="#{todo.title}" rendered="#{not todo.newRow}"></h:outputText>
+		<h:inputText value="#{todo.title}" rendered="#{todo.newRow}"></h:inputText> 
       </h:column>
 
       <h:column>
-        <f:facet name="header">
-          <h:column>
-            <h:outputText value="Description"></h:outputText>
-          </h:column>
-        </f:facet>
-        <h:outputText value="#{todo.description}"></h:outputText>
+            <f:facet name="header">Description</f:facet>
+        <h:outputText value="#{todo.description}" rendered="#{not todo.newRow}"></h:outputText>
+        <h:inputText value="#{todo.description}" rendered="#{todo.newRow}"></h:inputText>
       </h:column>
 
       <h:column>
-        <f:facet name="header">
-          <h:column>
-            <h:outputText value="Actions"></h:outputText>
-          </h:column>
-        </f:facet>
+          	<f:facet name="header">Actions</f:facet>
         <h:panelGrid columns="2">
-          <h:commandLink value="delete" action="#{todoController.delete}">
+        <h:commandLink value="edit" action="#{todoController.edit}" rendered="#{not todo.newRow}" update="dt1">
+            <f:setPropertyActionListener target="#{todoController.todo}"
+              value="#{todo}" />
+          </h:commandLink>
+           <h:commandLink value="save" action="#{todoController.update}" rendered="#{todo.newRow}" update="dt1">
+            <f:setPropertyActionListener target="#{todoController.todo}"
+              value="#{todo}" />
+          </h:commandLink>
+          <h:commandLink value="cancel" action="#{todoController.cancel}" rendered="#{todo.newRow}" update="dt1">
+            <f:setPropertyActionListener target="#{todoController.todo}"
+              value="#{todo}" />
+          </h:commandLink>
+          <h:commandLink value="delete" action="#{todoController.delete}" update="dt1">
             <f:setPropertyActionListener target="#{todoController.todo}"
               value="#{todo}" />
           </h:commandLink>
@@ -104,7 +76,30 @@
       </h:column>
     </h:dataTable>
 
+
+<h2>New Todo</h2>
+    		<table>
+    		<tr>
+    			<td>Priority :</td>
+    			<td><h:inputText size="10" value="#{todoController.priority}" /></td>
+    		</tr>
+    		<tr>
+    			<td>Title :</td>
+    			<td><h:inputText size="20" value="#{todoController.title}" /></td>
+    		</tr>
+    		<tr>
+    			<td>Description :</td>
+    			<td><h:inputText size="5" value="#{todoController.description}" />	</td>
+    		</tr>
+    		
+    		</table>
+    		
+    		<h:commandButton value="Add" action="#{todoController.save}" update="dt1">
+    			<f:setPropertyActionListener target="#{todoController}"
+              value="#{todoController}" />
+             </h:commandButton>
+
   </h:form>
 </f:view>
-</body>
+</h:body>
 </html>

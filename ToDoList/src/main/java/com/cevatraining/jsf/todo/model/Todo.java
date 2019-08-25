@@ -18,6 +18,7 @@ public class Todo {
   private String description;
   private int priority;
   private Calendar dueDate;
+  private boolean newRow = false;
   
   // ======================================
   // =             Constants              =
@@ -65,8 +66,14 @@ public class Todo {
     this.dueDate = dueDate;
   }
 
+
+  public boolean isNewRow() {
+	  return newRow;
+  }
   
-  
+  public void setNewRow(boolean newRow) {
+	  this.newRow = newRow;
+  }  
   
 } 
 

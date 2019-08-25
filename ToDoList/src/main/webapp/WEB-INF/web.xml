@@ -13,7 +13,7 @@
   </welcome-file-list>
   <context-param>
     <param-name>primefaces.THEME</param-name>
-    <param-value>home</param-value>
+    <param-value>home-1.0.10</param-value>
   </context-param>
   <context-param>
     <param-name>org.apache.myfaces.SERIALIZE_STATE_IN_SESSION</param-name>

@@ -5,16 +5,24 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
                                  http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 
-    <persistence-unit name="applicationTodoPU" transaction-type="JTA">
+    <persistence-unit name="applicationTodoPU" transaction-type="RESOURCE_LOCAL">
     	<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
         <jta-data-source>java:openejb/Resource/applicationPetstoreDS</jta-data-source>
         <class>com.cevatraining.jsf.todo.model.Todo</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="openejb.jpa.init-entitymanager" value="true"/>
-            <!-- <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/> -->
+            <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/> 
             <property name="openjpa.Log" value="DefaultLevel=WARN, Runtime=INFO, Tool=INFO, SQL=TRACE"/>
-            <!--<property name="openjpa.jdbc.DBDictionary" value="SupportsMultipleNontransactionalResultSets=false,RequiresAutoCommitForMetaData=false"/>-->
+            <property name="openjpa.jdbc.DBDictionary" value="SupportsMultipleNontransactionalResultSets=false,RequiresAutoCommitForMetaData=false"/>
+        	<!-- <property name="openjpa.ConnectionUserName" value="prateek_singh"/>
+<property name="openjpa.ConnectionPassword" value="prateek_singh"/>
+<property name="openjpa.ConnectionURL" value="jdbc:postgresql://postgres-two.ceva.cloud:5432/prateek_singh"/>
+<property name="openjpa.ConnectionDriverName" value="org.postgresql.Driver"/>
+<property name="openjpa.ConnectionFactoryProperties" 
+    value="PrettyPrint=true, PrettyPrintLineLength=80, PrintParameters=true"/>-->
+
+        	
         </properties>
     </persistence-unit>
 </persistence>
