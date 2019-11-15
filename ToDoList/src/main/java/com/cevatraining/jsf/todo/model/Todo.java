@@ -3,6 +3,9 @@ package com.cevatraining.jsf.todo.model;
 import java.util.Calendar;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -13,17 +16,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 })
 @XmlRootElement
 public class Todo {
+	@Id
+	//@GeneratedValue(strategy=GenerationType.AUTO)
   private int id;
   private String title;
   private String description;
   private int priority;
-  private Calendar dueDate;
-  private boolean newRow = false;
+//  private Calendar dueDate;
   
   // ======================================
   // =             Constants              =
   // ======================================
-
+public Todo() {
+	// TODO Auto-generated constructor stub
+}
   public static final String FIND_ALL = "TODO.findAll";
   
   public Todo(String title, String description, int priority) {
@@ -59,21 +65,15 @@ public class Todo {
     this.priority = priority;
   } 
   
-  public Calendar getDueDate() {
+  /*public Calendar getDueDate() {
     return dueDate;
   }
   public void setDueDate(Calendar dueDate) {
     this.dueDate = dueDate;
-  }
+  }*/
 
-
-  public boolean isNewRow() {
-	  return newRow;
-  }
   
-  public void setNewRow(boolean newRow) {
-	  this.newRow = newRow;
-  }  
+  
   
 } 
 
